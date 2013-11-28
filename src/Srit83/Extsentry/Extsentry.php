@@ -24,4 +24,12 @@ class Extsentry extends Sentry{
             return $this->user;
         }
     }
+
+    public function logout()
+    {
+        $this->getUser()->recordLogout();
+        parent::logout();
+    }
+
+
 } 
