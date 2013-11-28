@@ -31,11 +31,11 @@ class ExtsentryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('LaravelBook\Ardent\Providers\ArdentServiceProvider');
         $this->app['extsentry'] = $this->app->share(function ($oApp) {
             $oApp->register('Cartalyst\Sentry\SentryServiceProvider');
             return new Extsentry(new Providers\User(new \Cartalyst\Sentry\Hashing\NativeHasher()));
         });
-
         $this->app->booting(function () {
             $oLoader = AliasLoader::getInstance();
             $oLoader->alias('Extsentry', 'Srit83\Extsentry\Facades\Extsentry');
