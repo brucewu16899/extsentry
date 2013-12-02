@@ -14,6 +14,7 @@ class  AddSignatureToUsersTable extends Migration {
         });
     }
 
+
     public function down() {
         Schema::table('users', function(Blueprint $oTable){
             $oTable->dropColumn('signature');
