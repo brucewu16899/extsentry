@@ -35,6 +35,7 @@ class Extsentry extends Sentry{
     {
         $oUser = parent::register($aCredentials, $blActivate);
         $oUser->getApiKey();
+        $oUser->getSignature();
         return $oUser;
     }
 
