@@ -8,13 +8,16 @@ namespace Srit83\Extsentry\Models\Eloquent;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Hash;
 
 class User extends \Cartalyst\Sentry\Users\Eloquent\User {
+
+    CONST HASH_PREFIX = '$2y$10$';
 
     protected static $_sLoginModel = 'Srit83\Extsentry\Models\Eloquent\Login';
 
     public static function scopeSignature(Builder $oQuery, $sSignature) {
-        return $oQuery->where(\DB::raw('SHA2(CONCAT(email, api_key), 256)'), '=', $sSignature);
+        return $oQuery->where('signature', '=', static::HASH_PREFIX.$sSignature);
     }
 
     public static function setLoginModel($sLoginModel) {
@@ -41,9 +44,23 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User {
 
     public function getApiKey()
     {
-        $this->api_key = $api_key = $this->getRandomString(22);
-        $this->save();
-        return $api_key;
+        if(empty($this->api_key)) {
+            $this->api_key = $this->getRandomString(22);
+            $this->save();
+        }
+        return $this->api_key;
+    }
+
+    public function getSignature() {
+
+        if(empty($this->signature)) {
+            $this->signature = \Hash::make($this->getApiKey().$this->id.$this->email);
+            $this->signature = substr($this->signature, 7);
+            $this->save();
+        }
+        return $this->signature;
+
+        //return hash_hmac('sha256', $this->email.$this->id.$this->getApiKey(),'');
     }
 
 
