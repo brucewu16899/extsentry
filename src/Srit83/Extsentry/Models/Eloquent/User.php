@@ -39,5 +39,12 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User {
         return true;
     }
 
+    public function getApiKey()
+    {
+        $this->api_key = $api_key = $this->getRandomString(22);
+        $this->save();
+        return $api_key;
+    }
+
 
 } 
