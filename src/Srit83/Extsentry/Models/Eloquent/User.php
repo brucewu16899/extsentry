@@ -17,7 +17,7 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User {
     protected static $_sLoginModel = 'Srit83\Extsentry\Models\Eloquent\Login';
 
     public static function scopeSignature(Builder $oQuery, $sSignature) {
-        return $oQuery->where('signature', '=', static::HASH_PREFIX.$sSignature);
+        return $oQuery->where('signature', '=', $sSignature);
     }
 
     public static function setLoginModel($sLoginModel) {
