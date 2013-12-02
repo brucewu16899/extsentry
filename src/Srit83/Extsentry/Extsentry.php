@@ -31,5 +31,12 @@ class Extsentry extends Sentry{
         parent::logout();
     }
 
+    public function register(array $aCredentials, $blActivate = false)
+    {
+        $oUser = parent::register($aCredentials, $blActivate);
+        $oUser->getApiKey();
+        return $oUser;
+    }
+
 
 } 
