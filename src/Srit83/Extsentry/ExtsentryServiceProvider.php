@@ -50,7 +50,7 @@ class ExtsentryServiceProvider extends ServiceProvider
         $this->app['extsentry.user'] = $this->app->share(function($oApp)
         {
             $sModel = $oApp['config']['srit83/extsentry::users.model'];
-            return new Providers\User($this->app['sentry.hasher'], $sModel);
+            return new Providers\User($oApp['sentry.hasher'], $sModel);
         });
     }
 
