@@ -13,9 +13,9 @@ class MigrateSentry extends Migration {
 	 */
 	public function up()
 	{
-        Artisan::call('migrate', [
+        Artisan::call('migrate', array(
             '--package'=>'cartalyst/sentry'
-        ]);
+        ));
 	}
 
 	/**
@@ -25,9 +25,9 @@ class MigrateSentry extends Migration {
 	 */
 	public function down()
 	{
-        Artisan::call('migrate:reset', [
+        Artisan::call('migrate:reset', array(
             '--package'=>'cartalyst/sentry'
-        ]);
+        ));
 	}
 
 }
