@@ -20,7 +20,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class MigrationCartalystSentryInstallUsers extends Migration {
+class MigrationCartalystSentryInstallThrottleMe extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -29,28 +29,22 @@ class MigrationCartalystSentryInstallUsers extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('users', function($table)
+		Schema::create('throttle', function($table)
 		{
 			$table->increments('id');
-			$table->string('email');
-			$table->string('password');
-			$table->text('permissions')->nullable();
-			$table->boolean('activated')->default(0);
-			$table->string('activation_code')->nullable();
-			$table->timestamp('activated_at')->nullable();
-			$table->timestamp('last_login')->nullable();
-			$table->string('persist_code')->nullable();
-			$table->string('reset_password_code')->nullable();
-			$table->string('first_name')->nullable();
-			$table->string('last_name')->nullable();
-			$table->timestamps();
+			$table->integer('user_id')->unsigned();
+			$table->string('ip_address')->nullable();
+			$table->integer('attempts')->default(0);
+			$table->boolean('suspended')->default(0);
+			$table->boolean('banned')->default(0);
+			$table->timestamp('last_attempt_at')->nullable();
+			$table->timestamp('suspended_at')->nullable();
+			$table->timestamp('banned_at')->nullable();
 
 			// We'll need to ensure that MySQL uses the InnoDB engine to
 			// support the indexes, other engines aren't affected.
 			$table->engine = 'InnoDB';
-			$table->unique('email');
-			$table->index('activation_code');
-			$table->index('reset_password_code');
+			$table->index('user_id');
 		});
 	}
 
@@ -61,7 +55,7 @@ class MigrationCartalystSentryInstallUsers extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('users');
+		Schema::drop('throttle');
 	}
 
 }
