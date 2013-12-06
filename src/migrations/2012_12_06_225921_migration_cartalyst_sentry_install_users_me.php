@@ -20,7 +20,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class MigrationCartalystSentryInstallGroups extends Migration {
+class MigrationCartalystSentryInstallUsersMe extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -29,17 +29,28 @@ class MigrationCartalystSentryInstallGroups extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('groups', function($table)
+		Schema::create('users', function($table)
 		{
 			$table->increments('id');
-			$table->string('name');
+			$table->string('email');
+			$table->string('password');
 			$table->text('permissions')->nullable();
+			$table->boolean('activated')->default(0);
+			$table->string('activation_code')->nullable();
+			$table->timestamp('activated_at')->nullable();
+			$table->timestamp('last_login')->nullable();
+			$table->string('persist_code')->nullable();
+			$table->string('reset_password_code')->nullable();
+			$table->string('first_name')->nullable();
+			$table->string('last_name')->nullable();
 			$table->timestamps();
 
 			// We'll need to ensure that MySQL uses the InnoDB engine to
 			// support the indexes, other engines aren't affected.
 			$table->engine = 'InnoDB';
-			$table->unique('name');
+			$table->unique('email');
+			$table->index('activation_code');
+			$table->index('reset_password_code');
 		});
 	}
 
@@ -50,7 +61,7 @@ class MigrationCartalystSentryInstallGroups extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('groups');
+		Schema::drop('users');
 	}
 
 }
