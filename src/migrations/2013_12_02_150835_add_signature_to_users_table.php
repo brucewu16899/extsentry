@@ -10,7 +10,8 @@ use Illuminate\Database\Schema\Blueprint;
 class  AddSignatureToUsersTable extends Migration {
     public function up() {
         Schema::table('users', function(Blueprint $oTable){
-            $oTable->string('signature');
+            //fix general sql error in sqlite
+            $oTable->string('signature')->default('');
         });
     }
 
